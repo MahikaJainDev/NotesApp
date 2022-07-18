@@ -3,6 +3,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled2/provider/note_provider.dart';
 import 'package:untitled2/screens/createNote.dart';
+import 'package:untitled2/screens/update_note.dart';
 
 class AllNotesScreen extends StatelessWidget {
   const AllNotesScreen({Key? key}) : super(key: key);
@@ -28,8 +29,8 @@ class AllNotesScreen extends StatelessWidget {
                     MaterialPageRoute(
                       fullscreenDialog: true,
                       builder: (context) => UpdateNoteRoute(
-                        eachNote,
-                        provider.data.indexOf(eachNote)
+                        note: eachNote,
+                        index: provider.data.indexOf(eachNote)
                       )
                     )
                   ),

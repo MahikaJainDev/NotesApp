@@ -5,13 +5,13 @@ class Notes{
   @PrimaryKey(autoGenerate: true)
   late int? id;
 
-  final String? title;
-  final String? body;
-  final String? created;
-  final String? updated;
-  final int? color;
-  final int? shape;
-  final String? reminder;
+  String? title;
+  String? body;
+  String? created;
+  String? updated;
+  int? color;
+  int? shape;
+  String? reminder;
 
   Notes(
       {this.title,

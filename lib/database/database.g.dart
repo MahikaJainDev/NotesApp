@@ -98,7 +98,7 @@ class _$NotesDatabase extends NotesDatabase {
 
 class _$NotesDao extends NotesDao {
   _$NotesDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database, changeListener),
+      : _queryAdapter = QueryAdapter(database),
         _notesInsertionAdapter = InsertionAdapter(
             database,
             'Notes',
@@ -111,8 +111,7 @@ class _$NotesDao extends NotesDao {
                   'color': item.color,
                   'shape': item.shape,
                   'reminder': item.reminder
-                },
-            changeListener),
+                }),
         _notesUpdateAdapter = UpdateAdapter(
             database,
             'Notes',
@@ -126,8 +125,7 @@ class _$NotesDao extends NotesDao {
                   'color': item.color,
                   'shape': item.shape,
                   'reminder': item.reminder
-                },
-            changeListener),
+                }),
         _notesDeletionAdapter = DeletionAdapter(
             database,
             'Notes',
@@ -141,8 +139,7 @@ class _$NotesDao extends NotesDao {
                   'color': item.color,
                   'shape': item.shape,
                   'reminder': item.reminder
-                },
-            changeListener);
+                });
 
   final sqflite.DatabaseExecutor database;
 
@@ -157,19 +154,16 @@ class _$NotesDao extends NotesDao {
   final DeletionAdapter<Notes> _notesDeletionAdapter;
 
   @override
-  Stream<List<Notes>> getAllNotes() {
-    return _queryAdapter.queryListStream('SELECT * FROM Notes',
+  Future<List<Notes>> getAllNotes() async {
+    return _queryAdapter.queryList('SELECT * FROM Notes',
         mapper: (Map<String, Object?> row) => Notes(
-            row['id'] as int?,
-            row['title'] as String?,
-            row['body'] as String?,
-            row['created'] as String?,
-            row['updated'] as String?,
-            row['color'] as int?,
-            row['shape'] as int?,
-            row['reminder'] as String?),
-        queryableName: 'Notes',
-        isView: false);
+            title: row['title'] as String?,
+            body: row['body'] as String?,
+            created: row['created'] as String?,
+            updated: row['updated'] as String?,
+            color: row['color'] as int?,
+            shape: row['shape'] as int?,
+            reminder: row['reminder'] as String?));
   }
 
   @override
