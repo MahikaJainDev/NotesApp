@@ -3,7 +3,8 @@ import 'package:floor/floor.dart';
 @entity
 class Notes{
   @PrimaryKey(autoGenerate: true)
-  final int? id;
+  late int? id;
+
   final String? title;
   final String? body;
   final String? created;
@@ -12,6 +13,13 @@ class Notes{
   final int? shape;
   final String? reminder;
 
-  Notes(this.id, this.title, this.body, this.created, this.updated, this.color, this.shape, this.reminder);
-
+  Notes(
+      {this.title,
+        this.body,
+        this.created,
+        this.updated,
+        this.color,
+        this.shape,
+        this.reminder
+      });
 }

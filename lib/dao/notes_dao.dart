@@ -4,7 +4,7 @@ import 'package:untitled2/entity/notes.dart';
 @dao
 abstract class NotesDao{
   @Query('SELECT * FROM Notes')
-  Stream<List<Notes>> getAllNotes();
+  Future<List<Notes>> getAllNotes();
 
   @insert
   Future<void> insertNote(Notes note);
