@@ -20,7 +20,7 @@ class UpdateNoteRoute extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Note'),
+        title: const Text('Update Note'),
         actions: [
           IconButton(
             icon: const Icon(
@@ -29,6 +29,7 @@ class UpdateNoteRoute extends StatelessWidget {
             onPressed: () async{
               note.title = titleController.text;
               note.body = bodyController.text;
+              note.updated = DateTime.now().toString();
               await Provider.of<NoteProvider>(context, listen: false).updateNote(
                   note,
                   index
@@ -45,6 +46,9 @@ class UpdateNoteRoute extends StatelessWidget {
           ),
           TextField(
             controller: bodyController,
+          ),
+          Text(
+            note.updated != null ? 'Last updated on ${note.updated.toString()}' : 'created on ${note.created.toString()}'
           )
         ],
       ),

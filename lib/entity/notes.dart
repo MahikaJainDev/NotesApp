@@ -2,8 +2,8 @@ import 'package:floor/floor.dart';
 
 @entity
 class Notes{
-  @PrimaryKey(autoGenerate: true)
-  late int? id;
+  // @PrimaryKey(autoGenerate: true)
+  // late int? id;
 
   String? title;
   String? body;

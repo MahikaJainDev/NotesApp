@@ -23,7 +23,8 @@ class CreateNote extends StatelessWidget {
             onPressed: () => Provider.of<NoteProvider>(context, listen: false).insertNote(
               Notes(
                 title: titleController.text,
-                body: bodyController.text
+                body: bodyController.text,
+                created: DateTime.now().toString(),
               )
             ).then((value) => Navigator.of(context).pop()),
           )

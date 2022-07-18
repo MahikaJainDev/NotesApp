@@ -103,7 +103,7 @@ class _$NotesDao extends NotesDao {
             database,
             'Notes',
             (Notes item) => <String, Object?>{
-                  'id': item.id,
+                 // 'id': item.id,
                   'title': item.title,
                   'body': item.body,
                   'created': item.created,
@@ -117,7 +117,7 @@ class _$NotesDao extends NotesDao {
             'Notes',
             ['id'],
             (Notes item) => <String, Object?>{
-                  'id': item.id,
+                //  'id': item.id,
                   'title': item.title,
                   'body': item.body,
                   'created': item.created,
@@ -131,7 +131,7 @@ class _$NotesDao extends NotesDao {
             'Notes',
             ['id'],
             (Notes item) => <String, Object?>{
-                  'id': item.id,
+                 // 'id': item.id,
                   'title': item.title,
                   'body': item.body,
                   'created': item.created,

@@ -16,29 +16,37 @@ class AllNotesScreen extends StatelessWidget {
           title: const Text('All Notes'),
         ),
         body: StaggeredGrid.count(
-          crossAxisCount: 4,
+          crossAxisCount: 2,
+          mainAxisSpacing: 8.0,
+          crossAxisSpacing: 8.0,
           children: provider.data.map((eachNote){
-            return Row(
-              children: [
-                Expanded(
-                  child: Text(eachNote.title ?? ''),
+            return GestureDetector(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  border: Border.all(color: Colors.grey)
                 ),
-                IconButton(
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      fullscreenDialog: true,
+                  child: Column(
+                    children: [
+                      Text(eachNote.title ?? '',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500
+                      ),
+                      ),
+                      Text(eachNote.body ?? '')
+                    ],
+                  ),
+              ),
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
                       builder: (context) => UpdateNoteRoute(
                         note: eachNote,
-                        index: provider.data.indexOf(eachNote)
-                      )
-                    )
+                        index: provider.data.indexOf(eachNote),
+                      ),
                   ),
-                  icon: const Icon(
-                    Icons.edit_rounded
-                  )
-                )
-              ],
+              )
             );
           }).toList(),
         ),
