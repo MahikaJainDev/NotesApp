@@ -27,6 +27,7 @@ class AllNotesScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
                       border: Border.all(color: Colors.black26),
+                      color: eachNote.color!=null ? Color(eachNote.color!) : const Color(0x00000000)
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

@@ -7,6 +7,8 @@ class NoteProvider extends ChangeNotifier{
 
   final List<Notes> data = [];
   late NotesDao dao;
+  int color = 0x000000;
+  bool colorSelected = false;
 
   NoteProvider(){
     initDao();
@@ -31,5 +33,6 @@ class NoteProvider extends ChangeNotifier{
     notifyListeners();
     await dao.updateNote(note);
   }
+
 
 }
