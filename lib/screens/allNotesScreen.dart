@@ -21,44 +21,45 @@ class AllNotesScreen extends StatelessWidget {
             crossAxisCount: 2,
             mainAxisSpacing: 8.0,
             crossAxisSpacing: 8.0,
-            children: provider.data.map((eachNote){
+            children: provider.data.map((eachNote) {
               return GestureDetector(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    border: Border.all(
-                        color: Colors.black26
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      border: Border.all(color: Colors.black26),
                     ),
-                  ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(eachNote.title ?? '',
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500
-                          ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(eachNote.body ?? ''),
-                        )
+                        eachNote.title!.isNotEmpty
+                            ? Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  eachNote.title ?? '',
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              )
+                            : Container(),
+                        eachNote.body!.isNotEmpty
+                            ? Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(eachNote.body ?? ''),
+                              )
+                            : Container()
                       ],
                     ),
-                ),
-                onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => UpdateNoteRoute(
-                          note: eachNote,
-                          index: provider.data.indexOf(eachNote),
+                  ),
+                  onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UpdateNoteRoute(
+                            note: eachNote,
+                            index: provider.data.indexOf(eachNote),
+                          ),
                         ),
-                    ),
-                )
-              );
+                      ));
             }).toList(),
           ),
         ),
@@ -75,11 +76,7 @@ class AllNotesScreen extends StatelessWidget {
             size: 30.0,
           ),
           onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => CreateNote()
-            )
-          ),
+              context, MaterialPageRoute(builder: (context) => CreateNote())),
         ),
       ),
     );

@@ -2,7 +2,7 @@ import 'package:floor/floor.dart';
 import 'package:untitled2/entity/notes.dart';
 
 @dao
-abstract class NotesDao{
+abstract class NotesDao {
   @Query('SELECT * FROM Notes')
   Future<List<Notes>> getAllNotes();
 
