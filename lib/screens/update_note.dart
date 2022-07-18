@@ -4,16 +4,54 @@ import 'package:untitled2/entity/notes.dart';
 import 'package:untitled2/provider/note_provider.dart';
 import 'package:intl/intl.dart';
 
-class UpdateNoteRoute extends StatelessWidget {
+class UpdateNoteRoute extends StatefulWidget {
   final Notes note;
   final int index;
 
+  UpdateNoteRoute({super.key, required this.note, required this.index});
+
+  @override
+  State<UpdateNoteRoute> createState() => _UpdateNoteRouteState();
+}
+
+class _UpdateNoteRouteState extends State<UpdateNoteRoute> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController bodyController = TextEditingController();
+  int? color;
 
-  UpdateNoteRoute({super.key, required this.note, required this.index}) {
-    titleController.text = note.title ?? '';
-    bodyController.text = note.body ?? '';
+  @override
+  void initState() {
+    titleController.text = widget.note.title ?? '';
+    bodyController.text = widget.note.body ?? '';
+    color = widget.note.color;
+    super.initState();
+  }
+
+  bool colorSelected = false;
+  List<int> mColors = [
+    0x00000000, //transparent
+    0xFFEF9A9A, //RED[200]
+    0xFFFFAB40, //ORANGEACCENT
+    0xFFFFEB3B, //YELLOW[500]
+    0xFF00E676, //GREENACCENT[400]
+    0xffa5d6a7, //green[200]
+    0xffce93d8, //purple[200]
+    0xff90a4ae, //blueGrey[300]
+    0xfff06292, //pink[300]
+    0xffb2ff59, //lightGreenAccent
+    0xff4db6a6, //teal[300]
+    0xff81d4fa //lightBlue[200]
+  ];
+
+  setColor(int ncolor) {
+    if (colorSelected == false) {
+      setState(() {
+        color = 0x00000000;
+      });
+    }
+    setState(() {
+      color = ncolor;
+    });
   }
 
   @override
@@ -25,18 +63,23 @@ class UpdateNoteRoute extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.check_rounded),
             onPressed: () async {
-              note.title = titleController.text;
-              note.body = bodyController.text;
-              note.updated = DateTime.now().toString();
+              widget.note.title = titleController.text;
+              widget.note.body = bodyController.text;
+              widget.note.updated = DateTime.now().toString();
+              widget.note.color = color;
               await Provider.of<NoteProvider>(context, listen: false)
-                  .updateNote(note, index);
+                  .updateNote(widget.note, widget.index);
               Navigator.of(context).pop();
             },
           )
         ],
       ),
       body: Container(
-        color: Color(note.color!),
+        color: colorSelected == true
+            ? Color(color!)
+            : widget.note.color == null
+                ? const Color(0x00000000)
+                : Color(widget.note.color!),
         child: Column(
           children: [
             Padding(
@@ -45,8 +88,8 @@ class UpdateNoteRoute extends StatelessWidget {
               child: TextField(
                 controller: titleController,
                 textInputAction: TextInputAction.next,
-                style:
-                    const TextStyle(fontSize: 24.0, fontWeight: FontWeight.w400),
+                style: const TextStyle(
+                    fontSize: 24.0, fontWeight: FontWeight.w400),
                 decoration: const InputDecoration(
                   hintText: 'Title',
                   hintStyle: TextStyle(
@@ -66,20 +109,64 @@ class UpdateNoteRoute extends StatelessWidget {
                 maxLines: null,
                 decoration: const InputDecoration(
                   hintText: 'Note',
-                  hintStyle: TextStyle(fontSize: 16.0, color: Color(0xff999999)),
+                  hintStyle:
+                      TextStyle(fontSize: 16.0, color: Color(0xff999999)),
                   border: InputBorder.none,
                 ),
               ),
             ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                      'Edited: ${DateFormat("d MMMM yyyy").format(DateTime.parse(note.updated!))}'),
-                ],
+            Expanded(
+              child: Align(
+                alignment: FractionalOffset.bottomCenter,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            constraints: BoxConstraints(
+                              maxHeight: 70.0,
+                              minWidth: MediaQuery.of(context).size.width,
+                            ),
+                            builder: (context) => Expanded(
+                              child: ListView.builder(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: mColors.length,
+                                  itemBuilder: (BuildContext context, int i) {
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: GestureDetector(
+                                        child: Container(
+                                          height: 30,
+                                          width: 30,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Color(mColors[i]),
+                                            border: Border.all(
+                                                color: const Color(0xff999999)),
+                                          ),
+                                        ),
+                                        onTap: () {
+                                          setState(() {
+                                            colorSelected = true;
+                                            setColor(mColors[i]);
+                                          });
+
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    );
+                                  }),
+                            ),
+                          );
+                        },
+                        icon: const Icon(Icons.palette_outlined)),
+                    Text(
+                        'Edited: ${DateFormat("jm").format(DateTime.parse(DateTime.now().toString()))}'),
+                  ],
+                ),
               ),
             ),
           ],
