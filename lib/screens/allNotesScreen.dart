@@ -15,40 +15,43 @@ class AllNotesScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text('All Notes'),
         ),
-        body: StaggeredGrid.count(
-          crossAxisCount: 2,
-          mainAxisSpacing: 8.0,
-          crossAxisSpacing: 8.0,
-          children: provider.data.map((eachNote){
-            return GestureDetector(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(color: Colors.grey)
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: StaggeredGrid.count(
+            crossAxisCount: 2,
+            mainAxisSpacing: 8.0,
+            crossAxisSpacing: 8.0,
+            children: provider.data.map((eachNote){
+              return GestureDetector(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    border: Border.all(color: Colors.grey)
+                  ),
+                    child: Column(
+                      children: [
+                        Text(eachNote.title ?? '',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500
+                        ),
+                        ),
+                        Text(eachNote.body ?? '')
+                      ],
+                    ),
                 ),
-                  child: Column(
-                    children: [
-                      Text(eachNote.title ?? '',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500
-                      ),
-                      ),
-                      Text(eachNote.body ?? '')
-                    ],
-                  ),
-              ),
-              onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => UpdateNoteRoute(
-                        note: eachNote,
-                        index: provider.data.indexOf(eachNote),
-                      ),
-                  ),
-              )
-            );
-          }).toList(),
+                onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => UpdateNoteRoute(
+                          note: eachNote,
+                          index: provider.data.indexOf(eachNote),
+                        ),
+                    ),
+                )
+              );
+            }).toList(),
+          ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: FloatingActionButton(
